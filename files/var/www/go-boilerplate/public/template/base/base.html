@@ -1,0 +1,61 @@
+{{ define "base" }}
+    <!DOCTYPE html>
+    <html>
+        <head>
+            {{ template "gtm-head" . }}
+
+            <meta name="HandheldFriendly" content="true"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>
+
+            <title>{{ .PageTitle }}</title>
+
+            <meta name="title" content="{{ .PageTitle }}"/>
+            <meta name="format-detection" content="telephone=no"/>
+            <link rel="manifest" href="?"/>
+            <meta name="description" content="{{ .PageDescription }}"/>
+
+            <meta property="og:description" content="{{ .PageDescription }}"/>
+            <meta property="og:site_name" content=""/>
+            <meta property="og:url" content="{{ .PageUrl }}"/>
+            <meta property="og:img" content="{{ .PageImage }}"/>
+
+            <meta property="branch:deeplink:$desktop_url" content="{{ .PageUrl }}" />
+            <meta property="branch:deeplink:$ios_deeplink_path" content="{{ .IOSDeeplinkPath }}" />
+            <meta property="branch:deeplink:$android_deeplink_path" content="{{ .AndroidDeeplinkPath }}" />
+
+            {{if eq .SearchPageIndex ""}}
+                <meta name="robots" content="index,follow"/>
+            {{else}}
+                <meta name="robots" content="{{.SearchPageIndex}}"/>
+            {{end}}
+
+            <link rel="shortcut icon" href="?">
+            <link rel="canonical" href="{{ .PageCanonical }}">
+
+            {{ template "base.css" }}
+            {{ template "base.js" }}
+            {{ template "extra-head" }}
+        </head>
+        <body>
+            {{ template "gtm-body" . }}
+            {{ template "header-old" . }}
+            {{template "ticker"}}
+            <div id="big-overlay" class="load__overlay none">
+                <div class="load__line-mask">
+                    <div class="load__line"></div>
+                </div>
+                <div class="load__img"></div>
+            </div>
+
+            {{ template "body" . }}
+            {{ template "footer" }}
+
+            {{ minscript "extra-js" }}
+            {{ template "extra-body" }}
+            <script type="text/javascript">
+                var pageUrl = "{{ .PageCanonical }}";
+            </script>
+        </body>
+    </html>
+{{ end }}

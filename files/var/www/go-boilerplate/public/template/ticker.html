@@ -1,0 +1,7 @@
+{{define "ticker"}}
+        {{ if ne getconfig.Ticker.Message "" }}
+                <div id="ticker-yellow"   style="text-align: center;word-wrap: break-word;background: #ffecb3 none repeat scroll 0 0;font-size:  small;padding: 5px;">
+                        {{ getconfig.Ticker.Message }}
+                </div>
+        {{ end }}
+{{end}}

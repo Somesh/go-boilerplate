@@ -1,0 +1,13 @@
+"/var/log/go-boilerplate/*.log" {
+  daily
+  create 777 www-data www-data
+  rotate 30
+  compress
+  su root www-data
+  postrotate
+    sleep 3
+    reload org-go-boilerplate >/dev/null 2>&1 || true
+    restart org-go-boilerplate-consumer >/dev/null 2>&1 || true
+    restart org-go-boilerplate-cron >/dev/null 2>&1 || true
+  endscript
+}

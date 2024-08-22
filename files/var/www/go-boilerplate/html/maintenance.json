@@ -1,0 +1,8 @@
+{
+  "message_error" : "This Application is Under Maintenance",
+  "message" : "<your_domain> is under Maintenance",
+  "status" : "UNDER_MAINTENANCE",
+  "config" : null,
+  "server_process_time" : null,
+  "data" : null
+}

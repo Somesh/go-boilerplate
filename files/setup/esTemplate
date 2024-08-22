@@ -1,0 +1,86 @@
+
+# template in ES for event request response from operator
+
+curl -X PUT http://localhost:9200/_template/event_logs_template -d '{
+  "mappings": {
+    "log": {
+      "log": {
+        "properties": {
+          "category_id": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "created_at": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "updated_at": {
+            "index": "not_analyzed",
+            "type": "date"
+          },
+          "customer_id": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "error": {
+            "index": "no",
+            "type": "keyword"
+          },
+          "http_status": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "time_taken": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "method": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "url": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "id": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "provider_id": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "request": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "response": {
+            "index": "not_analyzed",
+            "type": "keyword"
+          },
+          "order_id": {
+              "type": "long"
+          },
+           "user_id": {
+              "type": "long"
+          },
+           "invoice_id": {
+              "type": "long"
+          },
+           "operation": {
+              "type": "keyword"
+          },
+          "order_trace_id": {
+             "type": "keyword"
+         }
+        }
+      }
+    }
+  },
+  "settings": {
+    "number_of_replicas": 0,
+    "number_of_shards": 5
+  },
+  "template": "event_log_*"
+}
+'
