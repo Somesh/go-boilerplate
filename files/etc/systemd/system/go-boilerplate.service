@@ -1,0 +1,20 @@
+[Unit]
+Description=Boilerplate Server
+After=network.target local-fs.target
+Requires=network.target local-fs.target
+
+[Service]
+Environment="YOUR_ENV=production"
+Environment="LOGDIR=/var/log/go-boilerplate"
+ExecStart=/usr/bin/socketmaster -command=/usr/bin/go-boilerplate -listen tcp://:9000 -- -debug -l /var/log/go-boilerplate/go-boilerplate.access.log -e /var/log/go-boilerplate/go-boilerplate.error.log
+ExecStartPost=/bin/bash -c 'HOSTNAME=$(hostname -s) && curl -X POST --data-urlencode "payload={\"channel\": \"#oms-tech\", \"username\": \"go-boilerplate\", \"text\": \"<!group> *go-boilerplate* $YOUR_ENV server $HOSTNAME _restarted_\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/T/BCLPN4V7F/23243'
+
+Restart=always
+RestartSec=12
+StartLimitInterval=60
+StartLimitBurst=5
+
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target
