@@ -1,0 +1,14 @@
+[Unit]
+Description=Consul Template for boilerplate app
+After=network.target
+
+[Service]
+Environment="YOUR_ENV=production"
+ExecStart=/usr/bin/consul-template -consul-addr "127.0.0.1:8500" -config /var/consul/config/service.go-boilerplate.config >> /var/log/consul.log 2>&1
+Restart=always
+RestartSec=10s
+TimeoutSec=10
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target

@@ -13,7 +13,10 @@ func (m *APIMod) InitHandlers() {
 	r := mux.NewRouter()
 
 
-	// done for migration to aliyun
+	r.Handle("/v1/config", HandlerFunc(m.ConfigHandler))
+
+
+	// Health and system metrics
 	r.Handle("/status", HandlerFunc(m.Health))
 
 	http.Handle("/metrics", promhttp.Handler())

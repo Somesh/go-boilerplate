@@ -6,14 +6,15 @@
 # 
 ################################################################################
 [Server]
-  Host = https://some.domain.com
-  AppHost = "apk://"
+  Host = http://localhost:9000
   Port = 9000
-  TemplatePath = /var/www/go-boilerplate/public/template/
+  TemplatePath = files/var/www/go-boilerplate/public/tmpl/
+
+  # Timeouts in ns
   Timeout = {{ key "service/go-boilerplate/Server/Timeout" }}
-  PingClientTimeout =  {{ key "service/go-boilerplate/Server/PingClientTimeout" }}
-  RatingThreshold = 0
- 
+  PingClientTimeout = 1000000000
+  FailHealthCheckThreshold = 10
+
 
 [Tracer]
   Enabled = true
@@ -22,28 +23,35 @@
   TTL = 3600
   ExcludeRegex = media|
 
-[Redis "go-boilerplate"]
-  Endpoint    = {{ key "service/go-boilerplate/Redis/Endpoint" }}
-  Timeout     = {{ key "service/go-boilerplate/Redis/Timeout" }}
-  Maxidle     = {{ key "service/go-boilerplate/Redis/Maxidle" }}
-  MaxActive   = {{ key "service/go-boilerplate/Redis/MaxActive" }}
-
-
-{{range $key, $pairs := tree "service/go-boilerplate/Database" | byKey}}
-[Database "{{$key}}"]
-{{range $pair := $pairs}}  {{.Key}}={{.Value}}
-{{end}}{{end}}
-
-
-[NSQ]
-{{ range key "service/go-boilerplate/Nsq/ListenAddress" | split "," }}  ListenAddress = {{ . }}
-{{end}}
-{{ range key "service/go-boilerplate/Nsq/LookUpAddress" | split "," }}  LookUpAddress = {{ . }}
-{{end}}
-  PublishAddress = {{ key "service/go-boilerplate/Nsq/PublishAddress"}}
-  Prefix = {{ key "service/go-boilerplate/Nsq/Prefix"}}
+[Database "db_local"]
+    Master  = "local:local23@/local_dev?parseTime=true&loc=Local&allowNativePasswords=true"
+    Slave   = "local:local23@/local_dev?parseTime=true&loc=Local&allowNativePasswords=true"
+    driver  =  "mysql"
 
 [Slack]
-  WebhookUrl  = {{ key "service/go-boilerplate/Slack/WebhookUrl" }} 
-  Channel = {{ key "service/go-boilerplate/Slack/Channel" }}
-  Username = {{ key "service/go-boilerplate/Slack/Username" }}
+  WebhookUrl = ""
+  Channel = #boilerplate-tech
+  Username = boilerplate
+
+[Grace]
+  Timeout = 10
+  HTTPReadTimeout = 30
+  HTTPWriteTimeout = 30
+
+[Event]
+    APIURL = ""
+    HubNameSpace = "event-hub-name-spanxe"
+    HubName =  "hub_name"
+    HubConnString= "hub-connection;EntityPath=?"
+
+[ConnectionHub "hotel-content"]
+  Hubname = ""deact-expedia""
+  HubConnString= "hub-connection;EntityPath=?"
+  Partitions = "0"
+  Partitions = "1"
+
+[NSQ]
+  ListenAddress = 127.0.0.1:4150
+  LookUpAddress = 127.0.0.1:4161
+  PublishAddress = 127.0.0.1:4150
+  Prefix = prefix_

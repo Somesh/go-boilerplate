@@ -77,7 +77,7 @@ func postToSlack(ctx context.Context, err error, slackWriter *log.Logger) {
 	}
 
 	ip := config.GetLocalIP()
-	env := os.Getenv("TKPENV")
+	env := os.Getenv("YOUR_ENV")
 	slackWriter.Println(fmt.Sprintf("[%s][%s] %s", ip, env, err.Error()))
 }
 
